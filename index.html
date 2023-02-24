@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Gyroscope Sensor Demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			padding: 0;
+			margin: 0;
+			height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color: #1c1c1c;
+		}
+
+		#chair {
+			position: relative;
+			width: 200px;
+			height: 200px;
+			transform-style: preserve-3d;
+			transform: perspective(1000px) rotateX(-90deg);
+			transition: transform 100ms linear;
+		}
+
+		#chair-seat {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: #fff;
+			opacity: 0.8;
+			border: 1px solid #000;
+			box-sizing: border-box;
+			text-align: center;
+			font-size: 32px;
+			font-weight: bold;
+			color: #000;
+			line-height: 200px;
+		}
+
+		#chair-back {
+			position: absolute;
+			top: -10px;
+			left: 0;
+			width: 200px;
+			height: 50px;
+			background-color: #ddd;
+			opacity: 0.8;
+			border: 1px solid #000;
+			box-sizing: border-box;
+			text-align: center;
+			font-size: 18px;
+			font-weight: bold;
+			color: #000;
+			line-height: 50px;
+			transform-origin: bottom;
+			transform-style: preserve-3d;
+			transform: rotateX(90deg);
+		}
+	</style>
+</head>
+<body>
+	<div id="chair">
+		<div id="chair-seat">Seat</div>
+		<div id="chair-back">Back</div>
+	</div>
+
+	<script>
+		if (window.DeviceOrientationEvent) {
+			window.addEventListener("deviceorientation", handleOrientation, true);
+		} else {
+			alert("Device orientation not supported.");
+		}
+
+		function handleOrientation(event) {
+			var alpha = event.alpha; // rotation around z-axis
+			var beta = event.beta; // rotation around x-axis
+			var gamma = event.gamma; // rotation around y-axis
+
+			rotateChair(alpha, beta, gamma);
+		}
+
+		function rotateChair(alpha, beta, gamma) {
+			var chair = document.getElementById("chair");
+
+			chair.style.transform = "perspective(1000px) rotateX(-90deg) rotateZ(" + gamma + "deg) rotateY(" + beta + "deg) rotateX(" + alpha + "deg)";
+		}
+	</script>
+</body>
+</html>
